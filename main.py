@@ -9,19 +9,28 @@ class FtpClient:
     _host = ""
     _login = ""
     _password = ""
+    _jf = ""
     ftp_client = ""
 
-    def __init__(self, host, login, password):
-        self._host = host
-        self._login = login
-        self._password = password
+    def __init__(self):
+        self.jf = JsonRead("config.json")
+        self._host = self.jf.get_key_value(self.jf.key_list[0])
+        self._login = self.jf.get_key_value(self.jf.key_list[1])
+        self._password = self.jf.get_key_value(self.jf.key_list[2])
+        self.__authorization__()
 
-    def authorization(self):
+    def __authorization__(self):
         try:
             self.ftp_client = ftplib.FTP(self._host, self._login, self._password)
             print(self.ftp_client.getwelcome())
         except ftplib.error_perm:
             print("Error")
+
+    def disconnect(self):
+        self.ftp_client.close()
+
+    def get_list_directory(self):
+        self.ftp_client.dir()
 
     def test(self):
         print(self.ftp_client.sendcmd("PWD"))
@@ -40,23 +49,17 @@ class JsonRead:
         self.__get_key_list__()
 
     def __get_key_list__(self):
+        """
+        Getting the keys of a JSON file
+        """
         for k in self._my_json_file:
             self.key_list.append(k)
 
     def get_key_value(self, key):
+        """
+        Return value by key
+        """
         return self._my_json_file[key]
 
 
-"""
-host = '93.189.41.9'
-ftp_user = 'user54015'
-ftp_password = 'EZjb3lRIo1Av'
-
-ftp = FtpClient(host, ftp_user, ftp_password)
-ftp.authorization()
-ftp.test()
-
-JF = JsonRead("config.json")
-a = JF.key_list
-print(JF.get_key_value(a[0]))
-"""
+ftp = FtpClient()
