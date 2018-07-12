@@ -2,8 +2,14 @@
   "host": "93.189.41.9",
   "login": "user54015",
   "password": "EZjb3lRIo1Av",
-  "file_1": [
-    "C:/Users/Danila/OneDrive/Python/FTP_clien",
-    "ftp:/root/downloads"
+  "file_1":
+  [
+    "C:\\Temp\\test1.txt",
+    "\\downloads\\load1"
+  ],
+  "file_2":
+  [
+    "C:\\Temp\\test2.txt",
+    "\\root\\downloads\\load2"
   ]
 }

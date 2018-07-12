@@ -13,10 +13,10 @@ class FtpClient:
     ftp_client = ""
 
     def __init__(self):
-        self.jf = JsonRead("config.json")
-        self._host = self.jf.get_key_value(self.jf.key_list[0])
-        self._login = self.jf.get_key_value(self.jf.key_list[1])
-        self._password = self.jf.get_key_value(self.jf.key_list[2])
+        self._jf = JsonRead("config.json")
+        self._host = self._jf.get_key_value(self._jf.key_list[0])
+        self._login = self._jf.get_key_value(self._jf.key_list[1])
+        self._password = self._jf.get_key_value(self._jf.key_list[2])
         self.__authorization__()
 
     def __authorization__(self):
@@ -31,6 +31,17 @@ class FtpClient:
 
     def get_list_directory(self):
         self.ftp_client.dir()
+
+    def write_file_on_server(self, local_directory, server_directory):
+        pass
+
+    def ftp_upload(self, path, type = 'txt'):
+        my_file = open(path, 'rb')
+        name = path.split('/')[-1]
+        if type == 'txt':
+            self.ftp_client.storlines('STOR ' + name, my_file)
+        else:
+            self.ftp_client.storbinary('STOR ' + name, my_file)
 
     def test(self):
         print(self.ftp_client.sendcmd("PWD"))
@@ -63,3 +74,5 @@ class JsonRead:
 
 
 ftp = FtpClient()
+ftp.ftp_upload("C:/Temp/test1.txt")
+ftp.disconnect()
