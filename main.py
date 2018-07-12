@@ -32,9 +32,6 @@ class FtpClient:
     def get_list_directory(self):
         self.ftp_client.dir()
 
-    def write_file_on_server(self, local_directory, server_directory):
-        pass
-
     def ftp_upload(self, path, type = 'txt'):
         my_file = open(path, 'rb')
         name = path.split('/')[-1]
@@ -42,6 +39,26 @@ class FtpClient:
             self.ftp_client.storlines('STOR ' + name, my_file)
         else:
             self.ftp_client.storbinary('STOR ' + name, my_file)
+
+    def check_directory_on_server(self, patch):
+        """
+        Verification is in progress. Are there necessary directories
+        :param patch -> str:
+        """
+        dir_list = patch.split('/')
+        for my_dir in dir_list:
+            old_dir_list = self.ftp_client.nlst()
+            for old in old_dir_list:
+                if old == dir:
+                    self.ftp_client.sendcmd('CWD ' + my_dir)
+                    break
+                else:
+                    self.ftp_client.mkd(my_dir)
+                    self.ftp_client.sendcmd('CWD ' + my_dir)
+                    break
+
+    def write_file_on_server(self, local_directory, server_directory):
+        pass
 
     def test(self):
         print(self.ftp_client.sendcmd("PWD"))
@@ -74,5 +91,13 @@ class JsonRead:
 
 
 ftp = FtpClient()
-ftp.ftp_upload("C:/Temp/test1.txt")
+"""
+i = 3
+while i < len(ftp._jf.key_list):
+    l =ftp._jf.get_key_value(ftp._jf.key_list[i])
+    print(l[1])
+    i += 1
+"""
+ftp.check_directory_on_server('download/test/dirtest')
+ftp.ftp_upload("C:/Temp/test2.txt")
 ftp.disconnect()

@@ -4,12 +4,12 @@
   "password": "EZjb3lRIo1Av",
   "file_1":
   [
-    "C:\\Temp\\test1.txt",
-    "\\downloads\\load1"
+    "C:/Temp/test1.txt",
+    "downloads/load1"
   ],
   "file_2":
   [
-    "C:\\Temp\\test2.txt",
-    "\\root\\downloads\\load2"
+    "C:/Temp/test2.txt",
+    "downloads/load2"
   ]
 }
