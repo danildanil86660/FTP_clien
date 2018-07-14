@@ -27,7 +27,10 @@ class FtpClient:
             print("Error")
 
     def disconnect(self):
-        self.ftp_client.close()
+        try:
+            self.ftp_client.close()
+        except:
+            print('Error disconnect')
 
     def get_list_directory(self):
         self.ftp_client.dir()
@@ -72,12 +75,14 @@ class FtpClient:
 
     def upload_file_of_config(self):
         for key in self._jf.key_list[3:]:
-            l_dir = self._jf.get_key_value(key)[0]
-            s_dir = self._jf.get_key_value(key)[1]
-            self.write_file_on_server(l_dir, s_dir)
+            try:
+                l_dir = self._jf.get_key_value(key)[0]
+                s_dir = self._jf.get_key_value(key)[1]
+                self.write_file_on_server(l_dir, s_dir)
+            except IndexError:
+                print('Index Error')
+                exit()
             print("Файл ", l_dir, ' загружен на сервер')
-    def test(self):
-        print(self.ftp_client.sendcmd("PWD"))
 
 
 class JsonRead:
